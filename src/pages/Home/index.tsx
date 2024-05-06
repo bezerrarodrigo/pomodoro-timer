@@ -17,12 +17,26 @@ export function Index() {
         <FormContainer>
           <label htmlFor="task">I will work on</label>
           <TaskInput
+            list="task-suggestion"
             id="task"
             type="text"
             placeholder="Give your project a name here"
           />
+
+          <datalist id="task-suggestion">
+            <option value="Project 01" />
+            <option value="Project 02" />
+            <option value="Project 03" />
+          </datalist>
+
           <label htmlFor="minuteAmount">for</label>
-          <MinutesAmountInput type="number" placeholder="00" />
+          <MinutesAmountInput
+            type="number"
+            placeholder="00"
+            step={5}
+            min={5}
+            max={60}
+          />
           <span>minutes</span>
         </FormContainer>
 
