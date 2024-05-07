@@ -50,7 +50,7 @@ export function Index() {
 
         <StartCountdownButton disabled type="submit">
           <Play size={24} />
-          Começar
+          Start
         </StartCountdownButton>
       </form>
     </HomeContainer>
