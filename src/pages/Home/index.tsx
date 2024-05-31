@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as zod from 'zod'
 
+import Countdown from './components/Countdown'
+import NewCycleForm from './components/NewCycleForm'
 import {
   CountdownContainer,
   FormContainer,
@@ -20,7 +22,7 @@ const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Report the task.'),
   minuteAmount: zod
     .number()
-    .min(5)
+    .min(1)
     .max(60, 'Number must be less than or equal to 60.'),
 })
 
@@ -32,6 +34,7 @@ interface Cycle {
   minutesAmount: number
   startDate: Date
   interruptDate?: Date
+  finishedDate?: Date
 }
 
 export function Home() {
@@ -69,18 +72,36 @@ export function Home() {
   // effects
   useEffect(() => {
     let interval: number
+
     if (activeCycle) {
       interval = setInterval(() => {
-        setAmountSecondsPassed(
-          differenceInSeconds(new Date(), activeCycle.startDate),
+        const differenceSeconds = differenceInSeconds(
+          new Date(),
+          activeCycle.startDate,
         )
+
+        if (differenceSeconds >= activeCycleTotalSeconds) {
+          setCycles((prevState) =>
+            prevState.map((cycle) => {
+              if (cycle.id === activeCycleId) {
+                return { ...cycle, finishedDate: new Date() }
+              } else {
+                return cycle
+              }
+            }),
+          )
+          setAmountSecondsPassed(activeCycleTotalSeconds)
+          clearInterval(interval)
+        } else {
+          setAmountSecondsPassed(differenceSeconds)
+        }
       }, 1000)
     }
 
     return () => {
       clearInterval(interval)
     }
-  }, [activeCycle])
+  }, [activeCycle, activeCycleId, activeCycleTotalSeconds])
 
   useEffect(() => {
     if (activeCycle) {
@@ -103,8 +124,8 @@ export function Home() {
   }
 
   function handleInterruptCycle() {
-    setCycles(
-      cycles.map((cycle) => {
+    setCycles((prevState) =>
+      prevState.map((cycle) => {
         if (cycle.id === activeCycleId) {
           return { ...cycle, interruptDate: new Date() }
         } else {
@@ -113,50 +134,15 @@ export function Home() {
       }),
     )
     setActiveCycleId(null)
+    document.title = 'Ignite Timer'
   }
-
-  console.log('🚀 ~ cycles.map ~ cycle:', cycles)
 
   return (
     <HomeContainer>
       <form onSubmit={handleSubmit(handleCreateNewCycle)}>
-        <FormContainer>
-          <label htmlFor="task">I will work on</label>
-          <TaskInput
-            disabled={!!activeCycle}
-            list="task-suggestion"
-            id="task"
-            type="text"
-            placeholder="Give your project a name here"
-            {...register('task')}
-          />
+        <NewCycleForm />
 
-          <datalist id="task-suggestion">
-            <option value="Project 01" />
-            <option value="Project 02" />
-            <option value="Project 03" />
-          </datalist>
-
-          <label htmlFor="minuteAmount">for</label>
-          <MinutesAmountInput
-            disabled={!!activeCycle}
-            type="number"
-            placeholder="00"
-            step={5}
-            min={5}
-            // max={60}
-            {...register('minuteAmount', { valueAsNumber: true })}
-          />
-          <span>minutes</span>
-        </FormContainer>
-
-        <CountdownContainer>
-          <span>{minutes[0]}</span>
-          <span>{minutes[1]}</span>
-          <Separator>:</Separator>
-          <span>{seconds[0]}</span>
-          <span>{seconds[1]}</span>
-        </CountdownContainer>
+        <Countdown />
 
         {activeCycle ? (
           <StopCountdownButton type="button" onClick={handleInterruptCycle}>
