@@ -1,4 +1,4 @@
-import { HistoryContainer, HistoryList, Status } from './styles'
+import { HistoryContainer, HistoryList, Status } from './styles';
 
 export default function History() {
   return (
@@ -51,5 +51,5 @@ export default function History() {
         </table>
       </HistoryList>
     </HistoryContainer>
-  )
+  );
 }

@@ -21,6 +21,7 @@ module.exports = {
   },
   plugins: ['react', 'jsx-a11y', '@typescript-eslint'],
   rules: {
+    '@typescript-eslint/no-unused-vars': ['warn'],
     'react/self-closing-comp': 'error',
     'prettier/prettier': [
       'error',
