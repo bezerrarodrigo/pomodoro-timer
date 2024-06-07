@@ -70,6 +70,7 @@ export function CyclesContextProvider({
 
   function markCurrentCycleAsFinished() {
     dispatch(markCurrentCycleAsFinishedAction());
+    document.title = 'Ignite Timer';
   }
 
   function createNewCycle(data: CreateCycleData) {

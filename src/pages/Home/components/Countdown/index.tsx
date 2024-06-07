@@ -48,11 +48,14 @@ function Countdown() {
         if (differenceSeconds >= activeCycleTotalSeconds) {
           markCurrentCycleAsFinished();
           setSecondsPassed(activeCycleTotalSeconds);
-          clearInterval(interval);
         } else {
           setSecondsPassed(differenceSeconds);
         }
       }, 1000);
+
+      if (activeCycle.finishedDate) {
+        clearInterval(interval);
+      }
     }
 
     return () => {
