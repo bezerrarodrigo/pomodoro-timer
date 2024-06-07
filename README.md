@@ -28,3 +28,13 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+
+# Pomodoro Application in React
+  This project is a Pomodoro application developed with React.js, which uses Styled Components for styling, Context API for state management, Reducers for state update logic and the Immer.js library for immutable state manipulation. The goal is to provide an efficient tool for managing work and rest time, using the Pomodoro technique to increase productivity.
+
+## Screen
+
+<img src="src/form.png"/>
+<img src="src/taskList.png"/>
+
