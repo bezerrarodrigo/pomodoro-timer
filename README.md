@@ -36,5 +36,5 @@ export default {
 ## Screen
 
 <img src="src/form.png"/>
-<img src="src/taskList.png"/>
+<img src="src/tasklist.png"/>
 
